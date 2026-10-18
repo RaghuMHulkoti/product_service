@@ -19,7 +19,7 @@ public class OpenApiConfig {
                                 + "stock from Inventory Service.")
                         .version("1.0.0"))
                 .addServersItem(new Server()
-                        .url("http://localhost:8082")
-                        .description("Local Development Server"));
+                        .url("https://product-service-1o2l.onrender.com")
+                        .description("Production Server"));
     }
 }

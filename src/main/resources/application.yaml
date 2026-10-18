@@ -13,7 +13,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
     hikari:
-      maximum-pool-size: 2
+      maximum-pool-size: 1
       minimum-idle: 0
       connection-timeout: 30000
       idle-timeout: 600000
