@@ -2,6 +2,7 @@ package com.learning.product_service.core.service;
 
 import com.learning.product_service.common.EventType;
 import com.learning.product_service.gateway.ProductOutboxGateway;
+import com.learning.product_service.metrics.BusinessMetrics;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -19,10 +20,13 @@ public class OutboxService {
 
     private final ProductOutboxGateway productOutboxGateway;
     private final JsonMapper jsonMapper;
+    private final BusinessMetrics businessMetrics;
 
-    public OutboxService(ProductOutboxGateway productOutboxGateway, JsonMapper jsonMapper) {
+    public OutboxService(ProductOutboxGateway productOutboxGateway, JsonMapper jsonMapper,
+                         BusinessMetrics businessMetrics) {
         this.productOutboxGateway = productOutboxGateway;
         this.jsonMapper = jsonMapper;
+        this.businessMetrics = businessMetrics;
     }
 
     public void append(UUID aggregateId, EventType eventType, Object data) {
@@ -36,6 +40,7 @@ public class OutboxService {
         );
         try {
             productOutboxGateway.append(aggregateId, eventType.name(), jsonMapper.writeValueAsString(envelope));
+            businessMetrics.outboxEventAppended(eventType.name());
         } catch (JacksonException e) {
             throw new IllegalStateException("Failed to serialize outbox payload for " + eventType, e);
         }

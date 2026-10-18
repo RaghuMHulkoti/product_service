@@ -42,6 +42,7 @@ import com.learning.product_service.gateway.ProductMediaGatewayImpl;
 import com.learning.product_service.gateway.ProductOutboxGateway;
 import com.learning.product_service.gateway.ProductOutboxGatewayImpl;
 import com.learning.product_service.gateway.SupplierOfferGateway;
+import com.learning.product_service.metrics.BusinessMetrics;
 import com.learning.product_service.gateway.client.SupplierOfferGatewayImpl;
 import com.learning.product_service.gateway.repository.BrandRepository;
 import com.learning.product_service.gateway.repository.CategoryAttributeRepository;
@@ -130,8 +131,9 @@ public class AppConfig {
 
     @Bean
     public CreateProductUsecase createProductUsecase(ProductService productService, CategoryService categoryService,
-                                                     BrandService brandService, OutboxService outboxService) {
-        return new CreateProductUsecase(productService, categoryService, brandService, outboxService);
+                                                     BrandService brandService, OutboxService outboxService,
+                                                     BusinessMetrics businessMetrics) {
+        return new CreateProductUsecase(productService, categoryService, brandService, outboxService, businessMetrics);
     }
 
     @Bean
@@ -215,13 +217,14 @@ public class AppConfig {
     }
 
     @Bean
-    public OfferService offerService(SupplierOfferGateway supplierOfferGateway) {
-        return new OfferService(supplierOfferGateway);
+    public OfferService offerService(SupplierOfferGateway supplierOfferGateway, BusinessMetrics businessMetrics) {
+        return new OfferService(supplierOfferGateway, businessMetrics);
     }
 
     @Bean
-    public OutboxService outboxService(ProductOutboxGateway productOutboxGateway, JsonMapper jsonMapper) {
-        return new OutboxService(productOutboxGateway, jsonMapper);
+    public OutboxService outboxService(ProductOutboxGateway productOutboxGateway, JsonMapper jsonMapper,
+                                       BusinessMetrics businessMetrics) {
+        return new OutboxService(productOutboxGateway, jsonMapper, businessMetrics);
     }
 
     // =========================================================================

@@ -9,6 +9,7 @@ import com.learning.product_service.core.service.CategoryService;
 import com.learning.product_service.core.service.OutboxService;
 import com.learning.product_service.core.service.ProductService;
 import com.learning.product_service.core.usecase.Usecase;
+import com.learning.product_service.metrics.BusinessMetrics;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class CreateProductUsecase implements Usecase<CreateProductUsecaseRequest
     private final CategoryService categoryService;
     private final BrandService brandService;
     private final OutboxService outboxService;
+    private final BusinessMetrics businessMetrics;
 
     @Override
     @Transactional
@@ -38,6 +40,7 @@ public class CreateProductUsecase implements Usecase<CreateProductUsecaseRequest
 
         var product = productService.create(buildProduct(request, attributes));
         outboxService.append(product.getId(), EventType.PRODUCT_CREATED, ProductEventData.of(product, category));
+        businessMetrics.productCreated(product.getStatus().name());
 
         return CreateProductUsecaseResponse.builder()
                 .product(product)

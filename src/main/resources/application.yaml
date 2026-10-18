@@ -2,9 +2,9 @@ spring:
   application:
     name: product-service
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/products_db}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://pg-3f13466d-raghavendrahulkoti1-8f0c.h.aivencloud.com:28780/defaultdb?sslmode=require&currentSchema=%22Product%22
+    username: avnadmin
+    password: AVNS_yGow9uoMWcZbMVMfRk8
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -12,18 +12,26 @@ spring:
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 0
+      connection-timeout: 30000
+      idle-timeout: 600000
+    properties:
+      hibernate:
+        default_schema: '"Product"'
   flyway:
     enabled: true
     locations: classpath:db/migration
 
-server:
-  port: ${SERVER_PORT:8082}
+#server:
+#  port: ${SERVER_PORT:8082}
 
 # Product detail joins live offers from Supplier Service
 supplier-service:
-  base-url: ${SUPPLIER_SERVICE_URL:http://localhost:8080}
-  connect-timeout: 300ms
-  read-timeout: 1s
+  base-url: ${SUPPLIER_SERVICE_URL:https://supplier-service-tha0.onrender.com}
+  connect-timeout: 5s
+  read-timeout: 60s
 
 springdoc:
   api-docs:
@@ -32,3 +40,24 @@ springdoc:
     path: /swagger-ui.html
     tagsSorter: alpha
     operationsSorter: alpha
+    tryItOutEnabled: true
+    displayOperationId: true
+  show-actuator: false
+  use-fqn: true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
