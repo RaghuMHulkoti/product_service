@@ -324,7 +324,7 @@ class ProductFlowIntegrationTest {
     void openApiDocumentIsGenerated() throws Exception {
         mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.info.title").value("Product Service API"))
+                .andExpect(jsonPath("$.info.title").value("ShopTrail Product Service API"))
                 .andExpect(jsonPath("$.paths['/api/v1/products/{productId}']").exists());
     }
 
