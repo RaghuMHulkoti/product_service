@@ -13,7 +13,7 @@ public class OpenApiConfig {
     public OpenAPI productServiceOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Product Service API")
+                        .title("ShopTrail Product Service API")
                         .description("Master catalog: products, categories, brands, category attributes and media. "
                                 + "Holds no price and no stock: price comes from Supplier Service offers, "
                                 + "stock from Inventory Service.")
