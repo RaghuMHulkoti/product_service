@@ -202,3 +202,7 @@ None.
 - Write endpoints are open; no JWT or role check yet.
 - Search is a simple list and category browse (no full-text search).
 - Catalogue events are not published.
+
+## License
+
+Copyright (c) 2026 Raghavendra. All rights reserved. The code is published for viewing only; copying or reuse requires written permission. See [LICENSE](LICENSE).
